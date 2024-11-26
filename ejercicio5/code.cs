@@ -2,44 +2,53 @@ using System;
 
 class Program
 {
-    const int MAX = 100;
+    static void Main(string[] args)
+    {
+        int n = GetNumberOfElements();
+        int[] numbers = GetNumbersFromUser(n);
+        int total = Sum(numbers);
 
-     static int Sum(int[] arr, int n)
-     {
-         int result = 0;
-         for (int i = 0; i < n; i++)
-         {
-             result += arr[i];
-         }
-         return result;
-     }
+        Console.WriteLine("Sum of the numbers: " + total);
+    }
 
-     static void Main()
-     {
-         int n;
-         Console.Write("Enter the number of elements (1-100): ");
-         if (!int.TryParse(Console.ReadLine(), out n) || n < 1 || n > MAX)
-         {
-             Console.WriteLine("Invalid input. Please provide a digit ranging from 1 to 100.");
-             Environment.Exit(1);
-         }
+    static int GetNumberOfElements()
+    {
+        Console.WriteLine("Enter the number of elements:");
+        while (true)
+        {
+            if (int.TryParse(Console.ReadLine(), out int n) && n > 0)
+            {
+                return n;
+            }
+            Console.WriteLine("Invalid input. Please enter a positive integer.");
+        }
+    }
 
-         int[] arr = new int[n];
+    static int[] GetNumbersFromUser(int n)
+    {
+        int[] numbers = new int[n];
+        Console.WriteLine("Enter " + n + " integers:");
+        for (int i = 0; i < n; i++)
+        {
+            while (true)
+            {
+                if (int.TryParse(Console.ReadLine(), out numbers[i]))
+                {
+                    break;
+                }
+                Console.WriteLine("Invalid input. Please enter a valid integer.");
+            }
+        }
+        return numbers;
+    }
 
-         Console.WriteLine("Enter " + n + " integers:");
-         for (int i = 0; i < n; i++)
-         {
-             if (!int.TryParse(Console.ReadLine(), out arr[i]))
-             {
-                 Console.WriteLine("Invalid input. Please enter valid integers.");
-                 Environment.Exit(1);
-             }
-         }
-
-         int total = Sum(arr, n);
-
-         Console.WriteLine("Sum of the numbers: " + total);
-
-         // No need to free memory in C#, as it's managed by the runtime.
-     }
- }      
+    static int Sum(int[] numbers)
+    {
+        int total = 0;
+        foreach (int number in numbers)
+        {
+            total += number;
+        }
+        return total;
+    }
+}
